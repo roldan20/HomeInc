@@ -1,4 +1,4 @@
-﻿namespace HomeInc.Application.DTOs
+﻿namespace HomeInc.Domain.DTOS
 {
     public class LoginRequest
     {

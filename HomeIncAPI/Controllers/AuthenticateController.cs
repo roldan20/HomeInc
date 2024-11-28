@@ -1,4 +1,4 @@
-﻿using HomeInc.Application.DTOs;
+﻿using HomeInc.Domain.DTOS;
 using HomeInc.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
