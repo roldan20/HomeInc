@@ -39,20 +39,16 @@ namespace HomeInc.Ifrastructura.Middlewares
             // Loguear la excepción
             _logger.LogError(exception, "Ocurrió un error no manejado.");
 
-            // Determinar el tipo de error y construir la respuesta
-            context.Response.ContentType = "application/json";
-
-            // Establecer un código de estado por defecto
+            context.Response.ContentType = "application/json"; 
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-
-            // Crear un objeto de respuesta estándar
+           
             var response = new
             {
                 mensaje = "Ocurrió un error en el servidor.",
-                detalle = _hostEnvironment.IsDevelopment() ? exception.StackTrace : null // Mostrar stacktrace solo en desarrollo
+                detalle = _hostEnvironment.IsDevelopment() ? exception.StackTrace : null 
             };
 
-            // Si es una excepción específica del dominio, puedes personalizar la respuesta
+           
             if (exception is NotFoundException)
             {
                 context.Response.StatusCode = (int)HttpStatusCode.NotFound;
