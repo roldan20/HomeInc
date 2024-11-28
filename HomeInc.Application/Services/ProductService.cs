@@ -14,7 +14,7 @@ namespace HomeInc.Application.Services
         } 
 
 
-        public async Task CreateAsync(ProductDTO product)
+        public async Task CreateAsync(CreateProductDTO product)
         {
            await _ProductRepository.AddAsync(product);
         }
@@ -35,10 +35,10 @@ namespace HomeInc.Application.Services
           return  await _ProductRepository.GetByIdAsync(Id);
         }
 
-        public async Task UpdateProductAsync(Product product)
+        public async Task UpdateProductAsync(UpdateProductDTO updateProductDTO)
         {
-   
-           await _ProductRepository.UpdateAsync(product);
+  
+           await _ProductRepository.UpdateAsync(updateProductDTO);
 
         }
     }

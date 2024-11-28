@@ -1,16 +1,19 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace HomeInc.Domain.DTOS
 {
-    public class GetProductDTO
+    public class CreateProductDTO
     {
-        public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public string DateOfCreate { get; set; }
         public string Category { get; set; }
         public string TypeOfGuarantee { get; set; }
-        public Guid UserId { get; set; }
-        public string UserName { get; set; }
+
+        public Guid ?UserId { get; set; }
+
     }
 }

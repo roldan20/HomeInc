@@ -2,7 +2,7 @@
 using HomeInc.Domain.Entities;
 using HomeInc.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
-
+using System.Security.Claims;
 
 namespace HomeInc.Ifrastructura.Repositories
 {
@@ -26,6 +26,7 @@ namespace HomeInc.Ifrastructura.Repositories
                                    {
                                     Id = product.Id,
                                     Name = product.Name,  
+                                    DateOfCreate = product.DateOfCreate.ToString("dd-MM-yyyy"),
                                     Description = product.Description,
                                     Category = product.Category,
                                     TypeOfGuarantee = product.TypeOfGuarantee,
@@ -45,6 +46,7 @@ namespace HomeInc.Ifrastructura.Repositories
                 Id = products.Id,
                 Description = products.Description,
                 Name = products.Name,
+                DateOfCreate = products.DateOfCreate.ToString("dd-MM-yyyy"),
                 Category = products.Category,
                 TypeOfGuarantee = products.TypeOfGuarantee,
                 UserId = products.UserId,
@@ -55,7 +57,7 @@ namespace HomeInc.Ifrastructura.Repositories
             return getProductDTO;
         }
 
-        public async Task AddAsync(ProductDTO productoDTO)
+        public async Task AddAsync(CreateProductDTO productoDTO)
         {
             var producto = new Product
             {
@@ -64,15 +66,20 @@ namespace HomeInc.Ifrastructura.Repositories
                 DateOfCreate = DateTime.Now,
                 Description = productoDTO.Description,
                 TypeOfGuarantee = productoDTO.TypeOfGuarantee,
-                UserId = productoDTO.UserId,
+                UserId = Guid.Parse(productoDTO.UserId.ToString()),
             };
             await _context.products.AddAsync(producto);
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(Product producto)
+        public async Task UpdateAsync(UpdateProductDTO producto)
         {
-            _context.products.Update(producto);
+            var product = await _context.products.FindAsync(producto.Id);
+            product.Name = producto.Name;
+            product.Description = producto.Description;
+            product.TypeOfGuarantee = producto.TypeOfGuarantee;
+            product.Category = producto.Category;
+            _context.products.Update(product);
             await _context.SaveChangesAsync();
         }
 

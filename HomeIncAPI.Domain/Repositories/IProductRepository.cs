@@ -7,8 +7,8 @@ namespace HomeInc.Domain.Repositories
     {
         Task<GetProductDTO> GetByIdAsync(Guid id);
         Task<IEnumerable<GetProductDTO>> GetAllAsync();
-        Task AddAsync(ProductDTO product);
-        Task UpdateAsync(Product product);
+        Task AddAsync(CreateProductDTO product);
+        Task UpdateAsync(UpdateProductDTO product);
         Task DeleteAsync(Guid id);
     }
 }

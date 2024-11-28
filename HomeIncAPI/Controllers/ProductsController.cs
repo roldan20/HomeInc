@@ -20,14 +20,14 @@ namespace HomeInc.WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> Get()
+        public async Task<ActionResult<IEnumerable<GetProductDTO>>> Get()
         {
             var productos = await _productoService.GetAllProducts();
             return Ok(productos);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> Get(Guid id)
+        public async Task<ActionResult<GetProductDTO>> Get(Guid id)
         {
             var producto = await _productoService.GetProductById(id);
             if (producto == null)
@@ -38,30 +38,24 @@ namespace HomeInc.WebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post(ProductCreateDTO product)
+        public async Task<ActionResult> Post(CreateProductDTO createProductDTO)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var productDTO = new ProductDTO
-            {
-                Description = product.Description,
-                Category = product.Category,
-                Name = product.Name,
-                TypeOfGuarantee = product.TypeOfGuarantee,
-                UserId = Guid.Parse(userId.ToString())
-            }; 
+            createProductDTO.UserId = Guid.Parse(userId);
 
-            await _productoService.CreateAsync(productDTO);
-            return CreatedAtAction(nameof(Get), new { id = productDTO.Id }, product);
+            await _productoService.CreateAsync(createProductDTO);
+            return CreatedAtAction(nameof(Get), new { id = createProductDTO.UserId }, createProductDTO);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> Put(Guid id, Product producto)
+        public async Task<ActionResult> Put(Guid id, UpdateProductDTO productDTO)
         {
-            if (id != producto.Id)
+            if (id != productDTO.Id)
             {
                 return BadRequest();
             }
-            await _productoService.UpdateProductAsync(producto);
+  
+            await _productoService.UpdateProductAsync(productDTO);
             return NoContent();
         }
 
